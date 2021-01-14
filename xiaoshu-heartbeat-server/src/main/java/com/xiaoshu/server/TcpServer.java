@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import java.net.InetSocketAddress;
 
 /**
- * 功能说明：
+ * 功能说明： 作为Netty Server的服务类；
  *
  * @ com.xiaoshu.server
  * <p>

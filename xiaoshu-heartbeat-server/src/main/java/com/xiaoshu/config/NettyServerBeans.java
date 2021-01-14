@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * 功能说明：
+ * 功能说明： Netty Server 的服务bean
  *
  * @ com.xiaoshu.config
  * <p>
