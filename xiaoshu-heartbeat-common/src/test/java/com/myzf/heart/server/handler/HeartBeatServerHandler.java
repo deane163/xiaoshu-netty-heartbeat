@@ -1,8 +1,8 @@
 package com.myzf.heart.server.handler;
 
+import com.myzf.heart.model.NettyMessage;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 
 /**
@@ -12,7 +12,7 @@ import io.netty.handler.timeout.IdleStateEvent;
  * <p>
  * Original @Author: deane.jia-贾亮亮,@2021/1/18@19:53
  * <p>
- * Copyright (C)2012-@2021 深圳优必选科技 All rights reserved.
+ * Copyright (C)2012-@2021 小树盛凯科技 All rights reserved.
  */
 public class HeartBeatServerHandler extends SimpleChannelInboundHandler<String> {
     @Override
@@ -22,8 +22,10 @@ public class HeartBeatServerHandler extends SimpleChannelInboundHandler<String> 
             System.out.println(((IdleStateEvent)evt).state());
             switch (event.state()){
                 case READER_IDLE:
-                    ctx.writeAndFlush("hello I'm server");
+                    ctx.writeAndFlush("hello I'm server, don't want read");
                     break;
+                case WRITER_IDLE:
+                    ctx.writeAndFlush("hello I'm server, don't want write");
                 default:
                     break;
             }
@@ -46,5 +48,10 @@ public class HeartBeatServerHandler extends SimpleChannelInboundHandler<String> 
         ctx.channel().close();
         System.out.printf("关闭远程接口");
         super.channelInactive(ctx);
+    }
+
+    public String createMessage(){
+        NettyMessage<String> msg = new NettyMessage<>();
+        return null;
     }
 }

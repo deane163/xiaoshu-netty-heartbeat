@@ -10,11 +10,16 @@ import io.netty.channel.SimpleChannelInboundHandler;
  * <p>
  * Original @Author: deane.jia-贾亮亮,@2021/1/18@20:02
  * <p>
- * Copyright (C)2012-@2021 深圳优必选科技 All rights reserved.
+ * Copyright (C)2012-@2021 小树盛凯科技 All rights reserved.
  */
 public class HeartBeatClientHandler extends SimpleChannelInboundHandler<String> {
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
         System.out.println("[receive msg]:" + msg);
+    }
+
+    @Override
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        super.channelActive(ctx);
     }
 }
