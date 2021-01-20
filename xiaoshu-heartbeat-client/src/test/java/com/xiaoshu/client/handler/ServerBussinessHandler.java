@@ -1,6 +1,6 @@
 package com.xiaoshu.client.handler;
 
-import com.xiaoshu.client.model.MyCommandType;
+import com.alibaba.fastjson.JSON;
 import com.xiaoshu.client.model.MyMessage;
 import com.xiaoshu.client.util.MessageUtils;
 import io.netty.channel.Channel;
@@ -16,7 +16,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
  * <p>
  * Copyright (C)2012-@2021 深圳优必选科技 All rights reserved.
  */
-public class ServerBussinessHandler extends SimpleChannelInboundHandler<MyMessage> {
+public class ServerBussinessHandler extends SimpleChannelInboundHandler<String> {
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         System.out.println("[client connect] client connect" + ctx.channel().toString());
@@ -24,18 +24,22 @@ public class ServerBussinessHandler extends SimpleChannelInboundHandler<MyMessag
     }
 
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, MyMessage msg) throws Exception {
-        System.out.println("[receive]" + msg.getMessageId());
+    protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
+        MyMessage message = JSON.parseObject(msg, MyMessage.class);
+        System.out.println("[receive]" + message.getMessageId());
         MyMessage myMessage = MessageUtils.createMyMessage("admin", "Im server");
-        ctx.channel().writeAndFlush(myMessage);
+        ctx.channel().writeAndFlush(JSON.toJSONString(myMessage));
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        super.exceptionCaught(ctx, cause);
         Channel channel = ctx.channel();
         //……
-        if(channel.isActive())ctx.close();
+        if (channel.isActive()) ctx.close();
     }
 
+    @Override
+    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        super.channelInactive(ctx);
+    }
 }

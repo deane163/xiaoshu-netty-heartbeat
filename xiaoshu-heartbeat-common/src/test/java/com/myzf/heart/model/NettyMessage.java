@@ -14,7 +14,7 @@ import java.io.Serializable;
  * Copyright (C)2012-@2021 深圳优必选科技 All rights reserved.
  */
 @Data
-public  class NettyMessage<T> implements Serializable {
+public class NettyMessage<T> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

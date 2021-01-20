@@ -8,30 +8,30 @@ import java.util.concurrent.ConcurrentHashMap;
 
 
 /**
+ * 工具类把客户端id作为key放入map中 把通道放入对应value，相当于做一个绑定
  *
- *  工具类把客户端id作为key放入map中 把通道放入对应value，相当于做一个绑定
-  * @Author: myzf
-  * @Date: 2019/2/23 13:22
-  * @param
-*/
+ * @param
+ * @Author: myzf
+ * @Date: 2019/2/23 13:22
+ */
 
 @Component(value = "channelRepository")
 public class ChannelRepository {
-	private final static Map<String, Channel> channelCache = new ConcurrentHashMap<String, Channel>();
+    private final static Map<String, Channel> channelCache = new ConcurrentHashMap<String, Channel>();
 
-	public void put(String key, Channel value) {
-		channelCache.put(key, value);
-	}
+    public void put(String key, Channel value) {
+        channelCache.put(key, value);
+    }
 
-	public Channel get(String key) {
-		return channelCache.get(key);
-	}
+    public Channel get(String key) {
+        return channelCache.get(key);
+    }
 
-	public void remove(String key) { 
-		channelCache.remove(key);
-	}
+    public void remove(String key) {
+        channelCache.remove(key);
+    }
 
-	public int size() {
-		return channelCache.size();
-	}
+    public int size() {
+        return channelCache.size();
+    }
 }

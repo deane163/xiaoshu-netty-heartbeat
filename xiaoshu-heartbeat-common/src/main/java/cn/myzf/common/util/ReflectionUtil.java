@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ReflectionUtil {
-	/**
+    /**
      * Used to generate map of class fields where key is field value and value is field name.
      */
     public static Map<Integer, String> generateMapOfValueNameInteger(Class<?> clazz) {

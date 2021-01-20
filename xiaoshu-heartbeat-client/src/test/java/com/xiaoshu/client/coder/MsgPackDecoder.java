@@ -23,7 +23,7 @@ public class MsgPackDecoder extends MessageToMessageDecoder<ByteBuf> {
         final byte[] bytes;
         final int length = byteBuf.readableBytes();
         bytes = new byte[length];
-        byteBuf.getBytes(byteBuf.readerIndex(),bytes,0,length);
+        byteBuf.getBytes(byteBuf.readerIndex(), bytes, 0, length);
 //      调用MessagePack 的read方法将其反序列化为Object对象
         MessagePack msgPack = new MessagePack();
         list.add(msgPack.read(bytes));

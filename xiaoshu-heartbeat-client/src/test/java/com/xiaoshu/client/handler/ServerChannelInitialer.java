@@ -1,12 +1,10 @@
 package com.xiaoshu.client.handler;
 
-import com.xiaoshu.client.coder.MsgPackDecoder;
-import com.xiaoshu.client.coder.MsgPackEncoder;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
-import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
-import io.netty.handler.codec.LengthFieldPrepender;
+import io.netty.handler.codec.string.StringDecoder;
+import io.netty.handler.codec.string.StringEncoder;
 
 /**
  * 功能说明：
@@ -21,13 +19,9 @@ public class ServerChannelInitialer extends ChannelInitializer<Channel> {
     @Override
     protected void initChannel(Channel ch) throws Exception {
         ChannelPipeline pipeline = ch.pipeline();
-        // 添加编解码器；
-        ch.pipeline().addLast(new LengthFieldBasedFrameDecoder(65535,0,
-                2,0,2));
-        ch.pipeline().addLast(new MsgPackDecoder());
-        ch.pipeline().addLast(new LengthFieldPrepender(2));
-        ch.pipeline().addLast(new MsgPackEncoder());
-
+        pipeline.addLast("Decoder", new StringDecoder());
+        pipeline.addLast("Encoder", new StringEncoder());
+        // 添加自定义的处理器
         pipeline.addLast(new ServerBussinessHandler());
     }
 }

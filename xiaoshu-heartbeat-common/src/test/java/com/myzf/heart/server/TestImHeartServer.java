@@ -2,7 +2,6 @@ package com.myzf.heart.server;
 
 import com.myzf.heart.server.handler.HeartBeatInitialer;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -21,15 +20,19 @@ import io.netty.handler.logging.LoggingHandler;
  */
 public class TestImHeartServer {
 
-    public EventLoopGroup workerGroup(){
+    public static void main(String[] args) {
+        new TestImHeartServer().start();
+    }
+
+    public EventLoopGroup workerGroup() {
         return new NioEventLoopGroup();
     }
 
-    public EventLoopGroup bossGroup(){
+    public EventLoopGroup bossGroup() {
         return new NioEventLoopGroup();
     }
 
-    public void start(){
+    public void start() {
         EventLoopGroup bossGroup = bossGroup();
         EventLoopGroup workerGroup = workerGroup();
         // 创建 ServerBootstrap
@@ -45,10 +48,6 @@ public class TestImHeartServer {
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();
         }
-    }
-
-    public static void main(String[] args) {
-        new TestImHeartServer().start();
     }
 
 }

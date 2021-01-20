@@ -18,12 +18,17 @@ import io.netty.handler.logging.LoggingHandler;
  */
 public class HeartBeatServer {
 
-    int port ;
-    public HeartBeatServer(int port){
+    int port;
+
+    public HeartBeatServer(int port) {
         this.port = port;
     }
 
-    public void start(){
+    public static void main(String[] args) {
+        new HeartBeatServer(8090).start();
+    }
+
+    public void start() {
         ServerBootstrap serverBootstrap = new ServerBootstrap();
         NioEventLoopGroup bossGroup = new NioEventLoopGroup();
         NioEventLoopGroup workerGroup = new NioEventLoopGroup();
@@ -39,10 +44,6 @@ public class HeartBeatServer {
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();
         }
-    }
-
-    public static void main(String[] args) {
-        new HeartBeatServer(8090).start();
     }
 
 }

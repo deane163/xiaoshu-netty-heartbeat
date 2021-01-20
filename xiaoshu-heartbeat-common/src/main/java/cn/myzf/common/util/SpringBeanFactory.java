@@ -7,22 +7,22 @@ import org.springframework.stereotype.Component;
 
 
 /**
-  * @Author: myzf
-  * @Date: 2019/2/24 12:19
-  * @param
-*/
+ * @param
+ * @Author: myzf
+ * @Date: 2019/2/24 12:19
+ */
 @Component
 public final class SpringBeanFactory implements ApplicationContextAware {
 
     private static ApplicationContext context;
 
-    public static <T> T getBean(Class<T> c){
+    public static <T> T getBean(Class<T> c) {
         return context.getBean(c);
     }
 
 
-    public static <T> T getBean(String name,Class<T> clazz){
-        return context.getBean(name,clazz);
+    public static <T> T getBean(String name, Class<T> clazz) {
+        return context.getBean(name, clazz);
     }
 
     @Override

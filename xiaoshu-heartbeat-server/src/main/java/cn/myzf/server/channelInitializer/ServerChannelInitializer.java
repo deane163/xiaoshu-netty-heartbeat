@@ -38,14 +38,14 @@ public class ServerChannelInitializer extends ChannelInitializer<SocketChannel> 
     @Autowired
     @Qualifier("otherServerHandler")
     private ChannelInboundHandlerAdapter otherServerHandler;
-    
+
     @Override
     protected void initChannel(SocketChannel socketChannel) throws Exception {
-    	ChannelPipeline p = socketChannel.pipeline();
-    	//检测空闲必须放在这里 因为pipeline是分顺序加载的
-    	p.addLast("idleStateHandler", new IdleStateHandler(READER_IDLE_TIME_SECONDS
-    			, WRITER_IDLE_TIME_SECONDS, ALL_IDLE_TIME_SECONDS, TimeUnit.SECONDS));
-    	//解码器必须放在前面，否则发数据收不到
+        ChannelPipeline p = socketChannel.pipeline();
+        //检测空闲必须放在这里 因为pipeline是分顺序加载的
+        p.addLast("idleStateHandler", new IdleStateHandler(READER_IDLE_TIME_SECONDS
+                , WRITER_IDLE_TIME_SECONDS, ALL_IDLE_TIME_SECONDS, TimeUnit.SECONDS));
+        //解码器必须放在前面，否则发数据收不到
         p.addLast(new ProtobufVarint32FrameDecoder());//添加protobuff解码器
         p.addLast(new ProtobufDecoder(MessageBase.getDefaultInstance()));//添加protobuff对应类解码器
 

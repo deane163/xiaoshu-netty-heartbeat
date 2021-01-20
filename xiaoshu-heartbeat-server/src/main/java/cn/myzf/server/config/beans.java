@@ -54,7 +54,7 @@ public class beans {
 
     /**
      * netty服务器启动帮助类
-    */
+     */
     @Bean(name = "serverBootstrap")
     public ServerBootstrap bootstrap() {
         ServerBootstrap b = new ServerBootstrap();
@@ -69,7 +69,6 @@ public class beans {
         }
         return b;
     }
-
 
 
     /**
@@ -96,7 +95,7 @@ public class beans {
         为了尽可能的利用网络带宽，TCP总是希望尽可能的发送足够大的数据。
         这里就涉及到一个名为Nagle的算法，该算法的目的就是为了尽可能发送大块数据，避免网络中充斥着许多小数据块。
         */
-        options.put(ChannelOption.TCP_NODELAY,true);
+        options.put(ChannelOption.TCP_NODELAY, true);
 
         return options;
     }
@@ -115,11 +114,12 @@ public class beans {
 
     /**
      * 定义使用tcp连接方式
+     *
      * @return
      */
     @Bean(name = "tcpSocketAddress")
     public InetSocketAddress tcpPort() {
-        return new InetSocketAddress(host,tcpPort);
+        return new InetSocketAddress(host, tcpPort);
     }
 
 }

@@ -26,7 +26,7 @@ public class HeartBeatClientInitialer extends ChannelInitializer<Channel> {
         pipeline.addLast("Decoder", new StringDecoder());
         pipeline.addLast("Encoder", new StringEncoder());
         // 添加心跳处理
-        pipeline.addLast(new IdleStateHandler(2,0, 0, TimeUnit.SECONDS));
+        pipeline.addLast(new IdleStateHandler(2, 0, 0, TimeUnit.SECONDS));
         // 添加业务逻辑；
         pipeline.addLast(new HeartBeatClientHandler());
     }

@@ -17,7 +17,11 @@ import io.netty.channel.socket.nio.NioSocketChannel;
  */
 public class TestImHeartClient {
 
-    public void start(){
+    public static void main(String[] args) {
+        new TestImHeartClient().start();
+    }
+
+    public void start() {
         Bootstrap bootstrap = new Bootstrap();
         bootstrap.channel(NioSocketChannel.class).group(new NioEventLoopGroup());
         bootstrap.handler(new HeartBeatClientInitialer());
@@ -29,9 +33,5 @@ public class TestImHeartClient {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-    }
-
-    public static void main(String[] args) {
-        new TestImHeartClient().start();
     }
 }

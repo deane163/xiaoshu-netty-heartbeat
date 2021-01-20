@@ -1,7 +1,6 @@
 package com.xiaoshu.client.model;
 
 import lombok.Data;
-import org.msgpack.annotation.Message;
 
 import java.io.Serializable;
 
@@ -14,7 +13,6 @@ import java.io.Serializable;
  * <p>
  * Copyright (C)2012-@2021 深圳优必选科技 All rights reserved.
  */
-@Message
 @Data
 public class MyMessage implements Serializable {
 

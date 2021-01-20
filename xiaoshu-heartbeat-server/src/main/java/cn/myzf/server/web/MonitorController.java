@@ -24,15 +24,15 @@ public class MonitorController {
 
     @ResponseBody
     @RequestMapping("getData.do")
-    public Map<String,Object> getData(){
-        Map<String,Object> map = new HashMap<>();
+    public Map<String, Object> getData() {
+        Map<String, Object> map = new HashMap<>();
         Set<String> keys = redisTemplate.keys(pattern);
-        for(String  k : keys){
+        for (String k : keys) {
             List<String> pingList = redisTemplate.opsForList().range(k, 0, 9);
-            if(!pingList.isEmpty()){
+            if (!pingList.isEmpty()) {
                 Collections.reverse(pingList);
                 int index = k.lastIndexOf(":");
-                map.put(k.substring(index+1),pingList);
+                map.put(k.substring(index + 1), pingList);
             }
 
         }
@@ -43,7 +43,7 @@ public class MonitorController {
 
 
     @RequestMapping("monitor.do")
-    public String monitor(){
+    public String monitor() {
         return "monitor";
     }
 }

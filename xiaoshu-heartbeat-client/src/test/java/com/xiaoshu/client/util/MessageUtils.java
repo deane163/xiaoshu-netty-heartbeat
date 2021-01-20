@@ -17,12 +17,12 @@ public class MessageUtils {
 
     /**
      * 构建发送数据；
+     *
      * @param clientId
      * @param data
-     * @param commandType
      * @return
      */
-    public static  MyMessage createMyMessage(String clientId, String data){
+    public static MyMessage createMyMessage(String clientId, String data) {
         MyMessage message = new MyMessage();
         message.setMessageId(UUID.randomUUID().toString().replaceAll("_", ""));
         message.setData(data);

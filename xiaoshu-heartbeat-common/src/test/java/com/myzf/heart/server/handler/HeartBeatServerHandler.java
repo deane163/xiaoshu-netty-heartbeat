@@ -17,10 +17,10 @@ import io.netty.handler.timeout.IdleStateEvent;
 public class HeartBeatServerHandler extends SimpleChannelInboundHandler<String> {
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
-        if(evt instanceof IdleStateEvent){
-            IdleStateEvent event = (IdleStateEvent)evt;
-            System.out.println(((IdleStateEvent)evt).state());
-            switch (event.state()){
+        if (evt instanceof IdleStateEvent) {
+            IdleStateEvent event = (IdleStateEvent) evt;
+            System.out.println(((IdleStateEvent) evt).state());
+            switch (event.state()) {
                 case READER_IDLE:
                     ctx.writeAndFlush("hello I'm server, don't want read");
                     break;
@@ -50,7 +50,7 @@ public class HeartBeatServerHandler extends SimpleChannelInboundHandler<String> 
         super.channelInactive(ctx);
     }
 
-    public String createMessage(){
+    public String createMessage() {
         NettyMessage<String> msg = new NettyMessage<>();
         return null;
     }

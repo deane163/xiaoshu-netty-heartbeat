@@ -14,7 +14,7 @@ import org.msgpack.MessagePack;
  * <p>
  * Copyright (C)2012-@2021 深圳优必选科技 All rights reserved.
  */
-public class MsgPackEncoder  extends MessageToByteEncoder<Object> {
+public class MsgPackEncoder extends MessageToByteEncoder<Object> {
 
     @Override
     protected void encode(ChannelHandlerContext channelHandlerContext, Object o, ByteBuf byteBuf) throws Exception {

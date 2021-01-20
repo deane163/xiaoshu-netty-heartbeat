@@ -12,44 +12,44 @@ import java.net.InetSocketAddress;
 @Component
 public class TCPServer {
 
-	@Autowired
-	@Qualifier("serverBootstrap")
-	private ServerBootstrap serverBootstrap;
+    @Autowired
+    @Qualifier("serverBootstrap")
+    private ServerBootstrap serverBootstrap;
 
-	@Autowired
-	@Qualifier("tcpSocketAddress")
-	private InetSocketAddress tcpIpAndPort;
+    @Autowired
+    @Qualifier("tcpSocketAddress")
+    private InetSocketAddress tcpIpAndPort;
 
 
-	private Channel serverChannel;
+    private Channel serverChannel;
 
-	//@PostConstruct（会导致其他东西不运行）
-	public void start() throws Exception {
-		ChannelFuture future = serverBootstrap.bind(tcpIpAndPort).sync();
-		serverChannel = future.channel();
-		System.out.println("[Server start] TCP Server start , listen is :" + tcpIpAndPort.getPort());
-		future.channel().closeFuture().sync();
-	}
+    //@PostConstruct（会导致其他东西不运行）
+    public void start() throws Exception {
+        ChannelFuture future = serverBootstrap.bind(tcpIpAndPort).sync();
+        serverChannel = future.channel();
+        System.out.println("[Server start] TCP Server start , listen is :" + tcpIpAndPort.getPort());
+        future.channel().closeFuture().sync();
+    }
 
-	//@PreDestroy
-	public void stop() throws Exception {
-		serverChannel.close();
-		serverChannel.parent().close();
-	}
+    //@PreDestroy
+    public void stop() throws Exception {
+        serverChannel.close();
+        serverChannel.parent().close();
+    }
 
-	public ServerBootstrap getServerBootstrap() {
-		return serverBootstrap;
-	}
+    public ServerBootstrap getServerBootstrap() {
+        return serverBootstrap;
+    }
 
-	public void setServerBootstrap(ServerBootstrap serverBootstrap) {
-		this.serverBootstrap = serverBootstrap;
-	}
+    public void setServerBootstrap(ServerBootstrap serverBootstrap) {
+        this.serverBootstrap = serverBootstrap;
+    }
 
-	public InetSocketAddress getTcpPort() {
-		return tcpIpAndPort;
-	}
+    public InetSocketAddress getTcpPort() {
+        return tcpIpAndPort;
+    }
 
-	public void setTcpPort(InetSocketAddress tcpPort) {
-		this.tcpIpAndPort = tcpPort;
-	}
+    public void setTcpPort(InetSocketAddress tcpPort) {
+        this.tcpIpAndPort = tcpPort;
+    }
 }

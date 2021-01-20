@@ -7,55 +7,55 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 
-
 import java.util.Random;
 
-public class HeartBeatClient  {
- 
+public class HeartBeatClient {
+
     int port;
     Channel channel;
-    Random random ;
- 
-    public HeartBeatClient(int port){
+    Random random;
+
+    public HeartBeatClient(int port) {
         this.port = port;
         random = new Random();
     }
-    public static void main(String[] args) throws Exception{
+
+    public static void main(String[] args) throws Exception {
         HeartBeatClient client = new HeartBeatClient(8090);
         client.start();
     }
- 
+
     public void start() {
         EventLoopGroup eventLoopGroup = new NioEventLoopGroup();
-        try{
+        try {
             Bootstrap bootstrap = new Bootstrap();
             bootstrap.group(eventLoopGroup).channel(NioSocketChannel.class)
                     .handler(new HeartBeatClientInitializer());
- 
-            connect(bootstrap,port);
-            String  text = "I am alive";
-            while (channel.isActive()){
+
+            connect(bootstrap, port);
+            String text = "I am alive";
+            while (channel.isActive()) {
                 sendMsg(text);
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             // do something
-        }finally {
+        } finally {
             eventLoopGroup.shutdownGracefully();
         }
     }
- 
-    public void connect(Bootstrap bootstrap,int port) throws Exception{
-        channel = bootstrap.connect("localhost",8090).sync().channel();
+
+    public void connect(Bootstrap bootstrap, int port) throws Exception {
+        channel = bootstrap.connect("localhost", 8090).sync().channel();
     }
- 
-    public void sendMsg(String text) throws Exception{
+
+    public void sendMsg(String text) throws Exception {
         int num = random.nextInt(10);
         Thread.sleep(num * 1000);
         channel.writeAndFlush(text);
     }
- 
+
     static class HeartBeatClientInitializer extends ChannelInitializer<Channel> {
- 
+
         @Override
         protected void initChannel(Channel ch) throws Exception {
             ChannelPipeline pipeline = ch.pipeline();
@@ -64,12 +64,12 @@ public class HeartBeatClient  {
             pipeline.addLast(new HeartBeatClientHandler());
         }
     }
- 
+
     static class HeartBeatClientHandler extends SimpleChannelInboundHandler<String> {
         @Override
         protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
-            System.out.println(" client received :" +msg);
-            if(msg!= null && msg.equals("you are out")) {
+            System.out.println(" client received :" + msg);
+            if (msg != null && msg.equals("you are out")) {
                 System.out.println(" server closed connection , so client will close too");
                 ctx.channel().closeFuture();
             }

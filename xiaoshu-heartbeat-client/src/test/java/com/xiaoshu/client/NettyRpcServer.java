@@ -1,6 +1,5 @@
 package com.xiaoshu.client;
 
-import com.xiaoshu.client.handler.ServerBussinessHandler;
 import com.xiaoshu.client.handler.ServerChannelInitialer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -22,7 +21,11 @@ import io.netty.handler.logging.LoggingHandler;
  */
 public class NettyRpcServer {
 
-    public void start(int port){
+    public static void main(String[] args) {
+        new NettyRpcServer().start(8888);
+    }
+
+    public void start(int port) {
         System.out.println("[Server up] server up on time :{}" + System.currentTimeMillis());
         EventLoopGroup bossGroup = new NioEventLoopGroup();
         EventLoopGroup workerGroup = new NioEventLoopGroup();
@@ -43,9 +46,5 @@ public class NettyRpcServer {
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();
         }
-    }
-
-    public static void main(String[] args) {
-        new NettyRpcServer().start(8888);
     }
 }
