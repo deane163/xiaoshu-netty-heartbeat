@@ -1,8 +1,10 @@
 package com.xiaoshu.client;
 
 import com.xiaoshu.client.handler.ServerBussinessHandler;
+import com.xiaoshu.client.handler.ServerChannelInitialer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
@@ -28,13 +30,16 @@ public class NettyRpcServer {
         try {
             ServerBootstrap serverBootstrap = new ServerBootstrap();
             serverBootstrap.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class);
+            serverBootstrap.option(ChannelOption.SO_BACKLOG, 100);
             serverBootstrap.handler(new LoggingHandler(LogLevel.INFO));
-            serverBootstrap.childHandler(new ServerBussinessHandler());
+            serverBootstrap.childHandler(new ServerChannelInitialer());
+            // 绑定端口服务；
             ChannelFuture future = serverBootstrap.bind("127.0.0.1", port);
             future.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
+            // 关闭 NioEventLoopGroup  (事件循环组)
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();
         }

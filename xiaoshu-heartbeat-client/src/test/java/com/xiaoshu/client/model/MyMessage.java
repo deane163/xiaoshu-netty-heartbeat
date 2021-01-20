@@ -31,11 +31,6 @@ public class MyMessage implements Serializable {
     String messageId;
 
     /**
-     * 消息类型
-     */
-    MyCommandType cmdType ;
-
-    /**
      * 具体传输的数据信息；
      */
     String data;

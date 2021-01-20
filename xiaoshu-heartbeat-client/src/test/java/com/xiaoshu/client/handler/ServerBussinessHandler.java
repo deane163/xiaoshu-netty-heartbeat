@@ -3,6 +3,7 @@ package com.xiaoshu.client.handler;
 import com.xiaoshu.client.model.MyCommandType;
 import com.xiaoshu.client.model.MyMessage;
 import com.xiaoshu.client.util.MessageUtils;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
@@ -25,9 +26,16 @@ public class ServerBussinessHandler extends SimpleChannelInboundHandler<MyMessag
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, MyMessage msg) throws Exception {
         System.out.println("[receive]" + msg.getMessageId());
-        MyMessage myMessage = MessageUtils.createMyMessage("admin", "Im server", MyCommandType.PING);
+        MyMessage myMessage = MessageUtils.createMyMessage("admin", "Im server");
         ctx.channel().writeAndFlush(myMessage);
     }
 
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        super.exceptionCaught(ctx, cause);
+        Channel channel = ctx.channel();
+        //……
+        if(channel.isActive())ctx.close();
+    }
 
 }

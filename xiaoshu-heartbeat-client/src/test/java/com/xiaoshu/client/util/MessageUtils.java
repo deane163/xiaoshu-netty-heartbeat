@@ -1,6 +1,5 @@
 package com.xiaoshu.client.util;
 
-import com.xiaoshu.client.model.MyCommandType;
 import com.xiaoshu.client.model.MyMessage;
 
 import java.util.UUID;
@@ -23,12 +22,11 @@ public class MessageUtils {
      * @param commandType
      * @return
      */
-    public static  MyMessage createMyMessage(String clientId, String data, MyCommandType commandType){
+    public static  MyMessage createMyMessage(String clientId, String data){
         MyMessage message = new MyMessage();
         message.setMessageId(UUID.randomUUID().toString().replaceAll("_", ""));
         message.setData(data);
         message.setClientId(clientId);
-        message.setCmdType(commandType);
         return message;
     }
 }
