@@ -3,6 +3,7 @@ package com.xiaoshu.client.handler;
 import com.alibaba.fastjson.JSON;
 import com.xiaoshu.client.model.MyMessage;
 import com.xiaoshu.client.util.MessageUtils;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.timeout.IdleStateEvent;
@@ -24,7 +25,6 @@ public class ClientBussinessHandler extends SimpleChannelInboundHandler<String> 
         MyMessage myMessage = MessageUtils.createMyMessage("client", "Im client -" + System.currentTimeMillis());
         Thread.sleep(3000);
         ctx.channel().writeAndFlush(JSON.toJSONString(myMessage));
-
     }
 
     @Override
@@ -45,6 +45,14 @@ public class ClientBussinessHandler extends SimpleChannelInboundHandler<String> 
             default:
                 break;
         }
+    }
 
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        Channel channel = ctx.channel();
+        if(channel.isActive()){
+            // ... if channel still active , close the channel;
+            channel.close();
+        }
     }
 }
