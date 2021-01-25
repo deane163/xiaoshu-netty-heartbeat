@@ -1,0 +1,51 @@
+syntax = "proto3";
+option java_package = "cn.myzf.common";
+option java_outer_classname = "MessageFile";
+package rosa.im.protobuf;
+
+import "google/protobuf/any.proto";
+import "google/protobuf/descriptor.proto";
+
+extend google.protobuf.MessageOptions {
+    string version = 51234;
+}
+
+// 每次修改协议，请升级这个版本号
+message Version {
+    option (version) = "1.0.0";
+}
+
+message Message {
+    string cid = 1; // 客户端生成的 messageId （client messageId)
+    string gid = 2; // 服务端生成的 messageId (global messageId)
+    uint64 created_at = 3; // 消息的创建时间，精确到毫秒级
+    string from = 4; // 消息发送者的 uid
+    string to = 5; // 消息接收者的 uid
+    Type type = 6; // 消息所属的会话的类型
+    MessageContent message_content = 7; // 消息实体
+    string protocol_version = 8; // 协议版本号
+
+    // 会话类型
+    enum Type {
+        PRIVATE = 0; // 单聊
+        GROUP = 1; // 私聊
+        NOTIFICATION = 2; // 通知
+    }
+}
+
+message MessageContent {
+    // 消息实体类型，eg：1.text(文本消息) 2.image(图片消息) 3.voice(语音消息) 4.video(视频消息) 5.emotion(表情消息) 6.file(常规文件消息)
+    // 7.location(位置消息) 8.richcontent(富文本消息) 8.custom(自定义消息) 9.status(好友在线状态消息) 10.contact(联系人通知消息) 11.group(群组通知消息)
+    // 12.offline(强制下线的通知消息) 13.receipt(发送消息的回执的通知消息)
+    string content_type = 1;
+    google.protobuf.Any content = 2; // 消息实体的payload
+}
+
+message File {
+    bytes data = 1; // 文件内容
+    string name = 2; // 文件名
+    uint64 size = 3; // 文件大小
+    string type = 4; // 文件类型
+    bool private = 5;
+}
+

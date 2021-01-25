@@ -1,9 +1,8 @@
-package com.xiaoshu.client;
+package com.xiaoshu.file.server;
 
-import com.xiaoshu.client.handler.ServerChannelInitialer;
+import com.xiaoshu.file.server.handler.FileServerChannelInitialier;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
@@ -11,40 +10,38 @@ import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 
 /**
- * 功能说明：
+ * 功能说明： 通过Protobuf编解码，进行文件的传输操作；（服务器端配置，雏形）
  *
- * @ com.xiaoshu.client
+ * @ com.xiaoshu.file.server
  * <p>
- * Original @Author: deane.jia-贾亮亮,@2021/1/19@16:51
+ * Original @Author: deane.jia-贾亮亮,@2021/1/25@11:40
  * <p>
  * Copyright (C)2012-@2021 小树盛凯科技 All rights reserved.
  */
-public class NettyRpcServer {
+public class FileTransServer {
 
-    public static void main(String[] args) {
-        new NettyRpcServer().start(8888);
-    }
-
-    public void start(int port) {
-        System.out.println("[Server up] server up on time :{}" + System.currentTimeMillis());
+    public void start(int port){
         EventLoopGroup bossGroup = new NioEventLoopGroup();
         EventLoopGroup workerGroup = new NioEventLoopGroup();
-        // --
+
         try {
             ServerBootstrap serverBootstrap = new ServerBootstrap();
             serverBootstrap.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class);
-            serverBootstrap.option(ChannelOption.SO_BACKLOG, 100);
             serverBootstrap.handler(new LoggingHandler(LogLevel.INFO));
-            serverBootstrap.childHandler(new ServerChannelInitialer());
-            // 绑定端口服务；
-            ChannelFuture future = serverBootstrap.bind("127.0.0.1", port);
+            serverBootstrap.childHandler(new FileServerChannelInitialier());
+
+            ChannelFuture future = serverBootstrap.bind(port).sync();
             future.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
-            // 关闭 NioEventLoopGroup  (事件循环组)
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();
         }
+    }
+
+    public static void main(String[] args) {
+        System.out.println("File Trans server is start up on time " + System.currentTimeMillis());
+        new FileTransServer().start(8888);
     }
 }
