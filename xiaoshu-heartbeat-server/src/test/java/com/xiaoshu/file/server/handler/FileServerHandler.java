@@ -4,6 +4,7 @@ import cn.myzf.common.MessageFile;
 import com.xiaoshu.file.MessageFileProtobufTest;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.util.ReferenceCountUtil;
 
 /**
  * 功能说明：
@@ -21,10 +22,18 @@ public class FileServerHandler extends SimpleChannelInboundHandler<MessageFile.M
         System.out.println("[receive message]" + message.getGid());
         MessageFile.File fileObject = message.getMessageContent().getContent().unpack(MessageFile.File.class);
         MessageFileProtobufTest.readBin2Image(fileObject.getData().toByteArray(), "D:/temp/11zzz"+ System.currentTimeMillis()+ ".png");
+
+        ReferenceCountUtil.release(message);
     }
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         super.channelActive(ctx);
+    }
+
+    @Override
+    public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
+        super.channelReadComplete(ctx);
+        //TODO 通道数据读取完成后，进行处理的业务逻辑操作；
     }
 }

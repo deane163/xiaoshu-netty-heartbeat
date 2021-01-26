@@ -3,6 +3,7 @@ package com.xiaoshu.file.server;
 import com.xiaoshu.file.server.handler.FileServerChannelInitialier;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
@@ -27,7 +28,8 @@ public class FileTransServer {
         try {
             ServerBootstrap serverBootstrap = new ServerBootstrap();
             serverBootstrap.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class);
-            serverBootstrap.handler(new LoggingHandler(LogLevel.INFO));
+            serverBootstrap.handler(new LoggingHandler(LogLevel.INFO)).option(ChannelOption.SO_KEEPALIVE, true)
+                    .option(ChannelOption.SO_BACKLOG,100).option(ChannelOption.TCP_NODELAY,true);
             serverBootstrap.childHandler(new FileServerChannelInitialier());
 
             ChannelFuture future = serverBootstrap.bind(port).sync();

@@ -18,4 +18,9 @@ public class FileClientHandler extends SimpleChannelInboundHandler<MessageFile.M
     protected void channelRead0(ChannelHandlerContext ctx, MessageFile.Message msg) throws Exception {
         System.out.println("[receive data]" + msg.getGid());
     }
+
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        System.out.println("[exceptionCaught] remote Server close !" + ctx.channel().remoteAddress());
+    }
 }
