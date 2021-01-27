@@ -21,6 +21,7 @@ public class FileClientHandler extends SimpleChannelInboundHandler<MessageFile.M
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        System.out.println("[exceptionCaught] remote Server close !" + ctx.channel().remoteAddress());
+        System.out.println("[客户端] 客户端异常断开，客户端地址为：{}, cause is :{}" + ctx.channel().remoteAddress() + cause.toString());
+        super.exceptionCaught(ctx, cause);
     }
 }

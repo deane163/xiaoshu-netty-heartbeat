@@ -36,4 +36,10 @@ public class FileServerHandler extends SimpleChannelInboundHandler<MessageFile.M
         super.channelReadComplete(ctx);
         //TODO 通道数据读取完成后，进行处理的业务逻辑操作；
     }
+
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        System.out.println("[客户端] 客户端异常断开，客户端地址为：{}, cause is :{}" + ctx.channel().remoteAddress() + cause.toString());
+        super.exceptionCaught(ctx, cause);
+    }
 }
