@@ -16,7 +16,7 @@ import org.junit.Test;
  * <p>
  * Original @Author: deane.jia-贾亮亮,@2021/1/26@16:44
  * <p>
- * Copyright (C)2012-@2021 深圳优必选科技 All rights reserved.
+ * Copyright (C)2012-@2021 小树盛凯科技 All rights reserved.
  */
 public class ZookeeperClientUseCase {
 
