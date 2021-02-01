@@ -18,6 +18,14 @@ import org.springframework.stereotype.Component;
 
 import java.util.concurrent.TimeUnit;
 
+
+/**
+ * 初始化 {@link ChannelInitializer}, 添加编解码器；
+ *
+ * @param
+ * @Author: myzf
+ * @Date: 2019/2/23 13:22
+ */
 @Component(value = "serverChannelInitializer")
 public class ServerChannelInitializer extends ChannelInitializer<SocketChannel> {
 
