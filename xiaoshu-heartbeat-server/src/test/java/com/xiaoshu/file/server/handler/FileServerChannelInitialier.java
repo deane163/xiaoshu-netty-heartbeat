@@ -11,7 +11,7 @@ import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
 import io.netty.handler.timeout.IdleStateHandler;
 
 /**
- * 功能说明：
+ * 功能说明： 添加pipeline (添加编解码器，和业务处理服务handler)
  *
  * @ com.xiaoshu.file.server.handler
  * <p>

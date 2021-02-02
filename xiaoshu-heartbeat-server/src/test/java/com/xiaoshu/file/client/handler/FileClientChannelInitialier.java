@@ -11,7 +11,7 @@ import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
 
 /**
- * 功能说明：
+ * 功能说明： 添加pipeline (添加编解码器，和业务处理服务handler)
  *
  * @ com.xiaoshu.file.client.handler
  * <p>

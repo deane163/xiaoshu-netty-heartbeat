@@ -7,7 +7,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.util.ReferenceCountUtil;
 
 /**
- * 功能说明：
+ * 功能说明： 业务处理业务逻辑；
  *
  * @ com.xiaoshu.file.server.handler
  * <p>
