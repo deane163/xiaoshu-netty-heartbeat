@@ -50,7 +50,7 @@ public class ClientBussinessHandler extends SimpleChannelInboundHandler<String> 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         Channel channel = ctx.channel();
-        if(channel.isActive()){
+        if (channel.isActive()) {
             // ... if channel still active , close the channel;
             channel.close();
         }

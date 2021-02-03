@@ -144,6 +144,7 @@ public final class Message {
         private MessageBase(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
             super(builder);
         }
+
         private MessageBase() {
             clientId_ = "";
             cmd_ = 1;

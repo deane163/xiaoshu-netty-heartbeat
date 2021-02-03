@@ -26,7 +26,36 @@ import java.util.Date;
  */
 public class FileTransClient {
 
-    public void start(int port){
+    public static void main(String[] args) {
+        new FileTransClient().start(8888);
+    }
+
+    public static MessageFile.Message createMessage() {
+        MessageFile.Message.Builder builder = MessageFile.Message.newBuilder();
+        // 设置基础信息
+        builder.setCid("15646481133-000000");
+        builder.setGid(String.valueOf(16464813587931313L));
+        builder.setCreatedAt(new Date().getTime());
+        builder.setFrom("4");
+        builder.setTo("6");
+        builder.setType(MessageFile.Message.Type.PRIVATE);
+        byte[] file = MessageFileProtobufTest.getBytesByFile("D:/temp/11zzz.png");
+        // 设置body信息
+        MessageFile.File.Builder fileContentBuilder = MessageFile.File.newBuilder();
+        fileContentBuilder.setData(ByteString.copyFrom(file));
+        fileContentBuilder.setSize(1024);
+        fileContentBuilder.setPrivate(true);
+        fileContentBuilder.setType("private");
+        // 构造消息服务
+        MessageFile.MessageContent.Builder contentBuilder = MessageFile.MessageContent.newBuilder();
+        contentBuilder.setContentType(MessageType.FILE);
+        contentBuilder.setContent(Any.pack(fileContentBuilder.build()));
+        builder.setMessageContent(contentBuilder.build());
+        MessageFile.Message message = builder.build();
+        return message;
+    }
+
+    public void start(int port) {
         EventLoopGroup eventLoopGroup = new NioEventLoopGroup();
         try {
             Bootstrap bootstrap = new Bootstrap();
@@ -43,35 +72,6 @@ public class FileTransClient {
         } finally {
             eventLoopGroup.shutdownGracefully();
         }
-    }
-
-    public static void main(String[] args) {
-        new FileTransClient().start(8888);
-    }
-
-    public static MessageFile.Message createMessage(){
-        MessageFile.Message.Builder builder = MessageFile.Message.newBuilder();
-        // 设置基础信息
-        builder.setCid("15646481133-000000");
-        builder.setGid(String.valueOf(16464813587931313L));
-        builder.setCreatedAt(new Date().getTime());
-        builder.setFrom("4");
-        builder.setTo("6");
-        builder.setType(MessageFile.Message.Type.PRIVATE);
-        byte[] file = MessageFileProtobufTest.getBytesByFile("D:/temp/11zzz.png");
-        // 设置body信息
-        MessageFile.File.Builder  fileContentBuilder = MessageFile.File.newBuilder();
-        fileContentBuilder.setData(ByteString.copyFrom(file));
-        fileContentBuilder.setSize(1024);
-        fileContentBuilder.setPrivate(true);
-        fileContentBuilder.setType("private");
-        // 构造消息服务
-        MessageFile.MessageContent.Builder contentBuilder = MessageFile.MessageContent.newBuilder();
-        contentBuilder.setContentType(MessageType.FILE);
-        contentBuilder.setContent(Any.pack(fileContentBuilder.build()));
-        builder.setMessageContent(contentBuilder.build());
-        MessageFile.Message message = builder.build();
-        return message;
     }
 
 }

@@ -22,10 +22,11 @@ public class ZookeeperClientUseCase {
 
 
     private ZookeeperClient zookeeperClient = null;
+
     @Before
     public void before() throws Exception {
 
-        zookeeperClient = new ZookeeperClient("127.0.0.1:2181", 30*1000, 3*1000, new ExponentialBackoffRetry(1000, 3));
+        zookeeperClient = new ZookeeperClient("127.0.0.1:2181", 30 * 1000, 3 * 1000, new ExponentialBackoffRetry(1000, 3));
     }
 
     @Test
@@ -53,26 +54,31 @@ public class ZookeeperClientUseCase {
         //KeeperException.NoNodeException
         System.out.println(zookeeperClient.getNode("/testzookeeper/ages").orElse(null));
     }
+
     @Test
     public void testCheckExists() throws Exception {
         Assert.assertEquals(zookeeperClient.checkExists("/testzookeeper/ages"), false);
         Assert.assertEquals(zookeeperClient.checkExists("/testzookeeper/names"), true);
     }
+
     @Test
     public void testDelete() throws Exception {
         zookeeperClient.deleteNode("/testzookeeper/names");
     }
+
     @Test
     public void testChildren() throws Exception {
         System.out.println(zookeeperClient.getChildren("/testzookeeper"));
     }
+
     @Test
     public void testChilrenData() throws Exception {
         System.out.println(zookeeperClient.getChildrenData("/testzookeeper"));
     }
+
     @Test
     public void testListener() throws Exception {
-        zookeeperClient.addListener("/testzookeeper/names", (TreeCacheEvent event)->{
+        zookeeperClient.addListener("/testzookeeper/names", (TreeCacheEvent event) -> {
 
             System.out.println("--------------");
             System.out.println(event.getType());
@@ -82,13 +88,14 @@ public class ZookeeperClientUseCase {
         });
 
 //      zookeeperClient.setNode("/testzookeeper/names", "chester1,chester2,chester3,cheste");
-        zookeeperClient.setNode("/testzookeeper/names","xxx,ewewe,cerewr");
-        zookeeperClient.setNode("/testzookeeper/names/subnames","dhtia,ehwei,thhe");
-        zookeeperClient.setNode("/testzookeeper/names/subnames/xx","meitian,teiyw");
+        zookeeperClient.setNode("/testzookeeper/names", "xxx,ewewe,cerewr");
+        zookeeperClient.setNode("/testzookeeper/names/subnames", "dhtia,ehwei,thhe");
+        zookeeperClient.setNode("/testzookeeper/names/subnames/xx", "meitian,teiyw");
 //      zookeeperClient.deleteNode("/testzookeeper/names/subnames");
         zookeeperClient.deleteNodeChildren("/testzookeeper/names");
         Thread.currentThread().join();
     }
+
     @Test
     public void testCreateSequNode() throws Exception {
         zookeeperClient.createNode("/testzookeeper/names", "xxx,ewewe,cerewr1", CreateMode.PERSISTENT_SEQUENTIAL);
@@ -96,6 +103,7 @@ public class ZookeeperClientUseCase {
         zookeeperClient.createNode("/testzookeeper/names", "xxx,ewewe,cerewr3", CreateMode.PERSISTENT_SEQUENTIAL);
         zookeeperClient.createNode("/testzookeeper/names", "xxx,ewewe,cerewr4", CreateMode.PERSISTENT_SEQUENTIAL);
     }
+
     @Test
     public void testChildrenData() throws Exception {
         System.out.println(zookeeperClient.getChildrenData("/testzookeeper"));

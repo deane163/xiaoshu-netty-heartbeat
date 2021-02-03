@@ -19,7 +19,7 @@ import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
  * <p>
  * Copyright (C)2012-@2021 小树盛凯科技 All rights reserved.
  */
-public class FileClientChannelInitialier  extends ChannelInitializer<SocketChannel> {
+public class FileClientChannelInitialier extends ChannelInitializer<SocketChannel> {
     @Override
     protected void initChannel(SocketChannel ch) throws Exception {
         ChannelPipeline pipeline = ch.pipeline();

@@ -29,12 +29,12 @@ public class FileServerChannelInitialier extends ChannelInitializer<SocketChanne
     /**
      * 写空闲，不启用
      */
-    private static final int  WRITER_IDLE_TIME_SECONDS = 0;
+    private static final int WRITER_IDLE_TIME_SECONDS = 0;
 
     /**
      * 读写空闲， 不启用
      */
-    private static final int  ALL_IDLE_TIME_SECONDS = 0;
+    private static final int ALL_IDLE_TIME_SECONDS = 0;
 
     @Override
     protected void initChannel(SocketChannel ch) throws Exception {

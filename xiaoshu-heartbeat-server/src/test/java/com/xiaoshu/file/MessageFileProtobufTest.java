@@ -32,7 +32,7 @@ public class MessageFileProtobufTest {
         builder.setType(MessageFile.Message.Type.PRIVATE);
         byte[] file = getBytesByFile("D:/temp/11zzz.png");
         // 设置body信息
-        MessageFile.File.Builder  fileContentBuilder = MessageFile.File.newBuilder();
+        MessageFile.File.Builder fileContentBuilder = MessageFile.File.newBuilder();
         fileContentBuilder.setData(ByteString.copyFrom(file));
         fileContentBuilder.setSize(1024);
         fileContentBuilder.setPrivate(true);
@@ -48,7 +48,7 @@ public class MessageFileProtobufTest {
         MessageFile.File fileObject = message.getMessageContent().getContent().unpack(MessageFile.File.class);
 
         System.out.println(fileObject);
-        readBin2Image(fileObject.getData().toByteArray(), "D:/temp/11zzz"+ System.currentTimeMillis()+ ".png");
+        readBin2Image(fileObject.getData().toByteArray(), "D:/temp/11zzz" + System.currentTimeMillis() + ".png");
         System.out.println("转换完成");
 
     }

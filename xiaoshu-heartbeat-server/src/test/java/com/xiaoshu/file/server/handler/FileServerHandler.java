@@ -26,7 +26,7 @@ public class FileServerHandler extends SimpleChannelInboundHandler<MessageFile.M
     protected void channelRead0(ChannelHandlerContext ctx, MessageFile.Message message) throws Exception {
         System.out.println("[receive message]" + message.getGid());
         MessageFile.File fileObject = message.getMessageContent().getContent().unpack(MessageFile.File.class);
-        MessageFileProtobufTest.readBin2Image(fileObject.getData().toByteArray(), "D:/temp/11zzz"+ System.currentTimeMillis()+ ".png");
+        MessageFileProtobufTest.readBin2Image(fileObject.getData().toByteArray(), "D:/temp/11zzz" + System.currentTimeMillis() + ".png");
 
         ReferenceCountUtil.release(message);
     }

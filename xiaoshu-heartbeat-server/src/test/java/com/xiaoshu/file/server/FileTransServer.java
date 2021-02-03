@@ -21,8 +21,18 @@ import io.netty.handler.logging.LoggingHandler;
  */
 public class FileTransServer {
 
+    /**
+     * 启动 Netty Server配置类
+     *
+     * @param args
+     */
+    public static void main(String[] args) {
+        System.out.println("File Trans server is start up on time " + System.currentTimeMillis());
+        new FileTransServer().start(8888);
+    }
+
     // 配置  ServerBootstrap 启动配置类
-    public void start(int port){
+    public void start(int port) {
         EventLoopGroup bossGroup = new NioEventLoopGroup();
         EventLoopGroup workerGroup = new NioEventLoopGroup();
 
@@ -30,7 +40,7 @@ public class FileTransServer {
             ServerBootstrap serverBootstrap = new ServerBootstrap();
             serverBootstrap.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class);
             serverBootstrap.handler(new LoggingHandler(LogLevel.INFO)).option(ChannelOption.SO_KEEPALIVE, true)
-                    .option(ChannelOption.SO_BACKLOG,100).option(ChannelOption.TCP_NODELAY,true);
+                    .option(ChannelOption.SO_BACKLOG, 100).option(ChannelOption.TCP_NODELAY, true);
             serverBootstrap.childHandler(new FileServerChannelInitialier());
 
             ChannelFuture future = serverBootstrap.bind(port).sync();
@@ -41,14 +51,5 @@ public class FileTransServer {
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();
         }
-    }
-
-    /**
-     * 启动 Netty Server配置类
-     * @param args
-     */
-    public static void main(String[] args) {
-        System.out.println("File Trans server is start up on time " + System.currentTimeMillis());
-        new FileTransServer().start(8888);
     }
 }

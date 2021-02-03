@@ -28,17 +28,18 @@ public class IdleStateServerHandler extends SimpleChannelInboundHandler<MessageF
 
     /**
      * 空闲触发器 心跳基于空闲实现
+     *
      * @param ctx
      * @param evt
      * @throws Exception
      */
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
-        if(evt instanceof IdleStateEvent){
+        if (evt instanceof IdleStateEvent) {
             IdleStateEvent event = (IdleStateEvent) evt;
             IdleState state = event.state();
             String type = "";
-            switch (state){
+            switch (state) {
                 case READER_IDLE:
                     type = "read idle";
                     break;
@@ -51,7 +52,7 @@ public class IdleStateServerHandler extends SimpleChannelInboundHandler<MessageF
                 default:
                     break;
             }
-            System.out.println(ctx.channel().remoteAddress()+"超时类型：" + type);
+            System.out.println(ctx.channel().remoteAddress() + "超时类型：" + type);
         } else {
             super.userEventTriggered(ctx, evt);
         }
@@ -59,18 +60,18 @@ public class IdleStateServerHandler extends SimpleChannelInboundHandler<MessageF
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        System.out.println(ctx.channel().remoteAddress() + "连接成功"  );
+        System.out.println(ctx.channel().remoteAddress() + "连接成功");
     }
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, MessageFile.Message message) throws Exception {
         System.out.println("Idle state server :" + message.getGid());
         Channel channel = ChannelServerRepository.get(message.getFrom());
-        if(null == channel){
+        if (null == channel) {
             channel = ctx.channel();
             ChannelServerRepository.put(message.getFrom(), ctx.channel());
         }
-        if(channel.isOpen()){
+        if (channel.isOpen()) {
             channel.writeAndFlush(message);
         }
         //触发下一个handler(如果没有的话，message不会传递到下一个handler)
