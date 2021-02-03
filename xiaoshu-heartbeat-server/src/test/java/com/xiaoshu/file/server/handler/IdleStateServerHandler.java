@@ -4,7 +4,6 @@ import cn.myzf.common.MessageFile;
 import com.xiaoshu.file.client.common.ChannelServerRepository;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
@@ -62,7 +61,6 @@ public class IdleStateServerHandler extends SimpleChannelInboundHandler<MessageF
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         System.out.println(ctx.channel().remoteAddress() + "连接成功"  );
     }
-
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, MessageFile.Message message) throws Exception {

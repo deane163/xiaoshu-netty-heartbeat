@@ -21,6 +21,7 @@ import io.netty.handler.logging.LoggingHandler;
  */
 public class FileTransServer {
 
+    // 配置  ServerBootstrap 启动配置类
     public void start(int port){
         EventLoopGroup bossGroup = new NioEventLoopGroup();
         EventLoopGroup workerGroup = new NioEventLoopGroup();
@@ -42,6 +43,10 @@ public class FileTransServer {
         }
     }
 
+    /**
+     * 启动 Netty Server配置类
+     * @param args
+     */
     public static void main(String[] args) {
         System.out.println("File Trans server is start up on time " + System.currentTimeMillis());
         new FileTransServer().start(8888);

@@ -18,6 +18,11 @@ import io.netty.util.ReferenceCountUtil;
 public class FileServerHandler extends SimpleChannelInboundHandler<MessageFile.Message> {
 
     @Override
+    public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
+        super.channelRegistered(ctx);
+    }
+
+    @Override
     protected void channelRead0(ChannelHandlerContext ctx, MessageFile.Message message) throws Exception {
         System.out.println("[receive message]" + message.getGid());
         MessageFile.File fileObject = message.getMessageContent().getContent().unpack(MessageFile.File.class);
