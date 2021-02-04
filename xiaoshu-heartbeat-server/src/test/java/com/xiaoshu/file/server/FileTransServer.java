@@ -33,8 +33,8 @@ public class FileTransServer {
 
     // 配置  ServerBootstrap 启动配置类
     public void start(int port) {
-        EventLoopGroup bossGroup = new NioEventLoopGroup();
-        EventLoopGroup workerGroup = new NioEventLoopGroup();
+        EventLoopGroup bossGroup = new NioEventLoopGroup(1);
+        EventLoopGroup workerGroup = new NioEventLoopGroup(16);
 
         try {
             ServerBootstrap serverBootstrap = new ServerBootstrap();

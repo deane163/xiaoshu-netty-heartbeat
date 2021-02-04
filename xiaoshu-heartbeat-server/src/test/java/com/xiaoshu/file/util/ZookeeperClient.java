@@ -21,7 +21,7 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /**
- * 功能说明：
+ * 功能说明： 封装 Curator 客户端实现，实现文件的创建和监听的实现；
  *
  * @ com.xiaoshu.file.util
  * <p>
@@ -55,6 +55,14 @@ public class ZookeeperClient {
     //节点事件监听
     private Map<String, TreeCache> nodeListeners = new ConcurrentHashMap<>();
 
+    /**
+     * 构造函数中，实现 curator客户端的创建操作；
+     * @param connectString
+     * @param sessionTimeoutMs
+     * @param connectionTimeoutMs
+     * @param retryPolicy
+     * @throws Exception
+     */
     public ZookeeperClient(String connectString, int sessionTimeoutMs, int connectionTimeoutMs, RetryPolicy retryPolicy) throws Exception {
         //创建 CuratorFrameworkImpl实例
         client = CuratorFrameworkFactory.newClient(connectString, sessionTimeoutMs, connectionTimeoutMs, retryPolicy);
