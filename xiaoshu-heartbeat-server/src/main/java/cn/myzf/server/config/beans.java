@@ -19,15 +19,26 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * @package com.netty.server.config
+ * @package
  * @Date Created in 2019/2/23 13:01
  * @Author myzf
  */
 
+/**
+ * 功能说明：定义 ServerBootstrap； 组装服务
+ *
+ * @ com.netty.server.config
+ * <p>
+ * Original @Author: deane.jia-贾亮亮,@2021/1/25@11:40
+ * <p>
+ * Copyright (C)2012-@2021 小树盛凯科技 All rights reserved.
+ */
 @Configuration
 public class beans {
 
-    /*根据名称装配，防止和客户端的ChannelInitializer冲突报错*/
+    /**
+     * 根据名称装配，防止和客户端的ChannelInitializer冲突报错
+     */
     @Autowired
     @Qualifier("serverChannelInitializer")
     private ServerChannelInitializer serverChannelInitializer;
@@ -100,13 +111,19 @@ public class beans {
         return options;
     }
 
-    /*用来监控tcp链接 指定线程数 默认是1 用默认即可*/
+    /**
+     * 用来监控tcp链接事件 指定线程数 默认是1 用默认即可
+     * @return
+     */
     @Bean(name = "bossGroup", destroyMethod = "shutdownGracefully")
     public NioEventLoopGroup bossGroup() {
         return new NioEventLoopGroup(bossCount);
     }
 
-    /*处理io事件 一定要多线程效率高 源码中默认是cpu核数*2 */
+    /**
+     * 处理io事件（处理读写事件） 一定要多线程效率高 源码中默认是cpu核数*2
+     * @return
+     */
     @Bean(name = "workerGroup", destroyMethod = "shutdownGracefully")
     public NioEventLoopGroup workerGroup() {
         return new NioEventLoopGroup(workerCount);

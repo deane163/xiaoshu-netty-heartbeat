@@ -53,14 +53,16 @@ public class ServerChannelInitializer extends ChannelInitializer<SocketChannel> 
         //检测空闲必须放在这里 因为pipeline是分顺序加载的
         p.addLast("idleStateHandler", new IdleStateHandler(READER_IDLE_TIME_SECONDS
                 , WRITER_IDLE_TIME_SECONDS, ALL_IDLE_TIME_SECONDS, TimeUnit.SECONDS));
-        //解码器必须放在前面，否则发数据收不到
-        p.addLast(new ProtobufVarint32FrameDecoder());//添加protobuff解码器
-        p.addLast(new ProtobufDecoder(MessageBase.getDefaultInstance()));//添加protobuff对应类解码器
+        //解码器必须放在前面，否则发数据收不到, 添加protobuf解码器
+        p.addLast(new ProtobufVarint32FrameDecoder());
+        //添加protobuf对应类解码器
+        p.addLast(new ProtobufDecoder(MessageBase.getDefaultInstance()));
+        //protobuf的编码器 和上面对对应
+        p.addLast(new ProtobufVarint32LengthFieldPrepender());
+        //protobuf的编码器
+        p.addLast(new ProtobufEncoder());
 
-        p.addLast(new ProtobufVarint32LengthFieldPrepender());//protobuf的编码器 和上面对对应
-        p.addLast(new ProtobufEncoder());//protobuf的编码器
-
-        //自定义的hanlder
+        //自定义的hanlder (处理自身的业务逻辑处理)
         p.addLast("serverHeartHandler", serverHeartHandler);
         p.addLast("otherServerHandler", otherServerHandler);
     }

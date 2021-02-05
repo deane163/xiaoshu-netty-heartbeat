@@ -1,5 +1,6 @@
 package cn.myzf.server.handler;
 
+import cn.myzf.common.protobuf.Command;
 import cn.myzf.common.protobuf.Command.CommandType;
 import cn.myzf.common.protobuf.Message;
 import cn.myzf.common.protobuf.Message.MessageBase;
@@ -10,8 +11,6 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.AttributeKey;
 import io.netty.util.ReferenceCountUtil;
-import io.netty.util.concurrent.Future;
-import io.netty.util.concurrent.GenericFutureListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,25 +39,14 @@ public class OtherServerHandler extends ChannelInboundHandlerAdapter {
         Message.MessageBase msgBase = (Message.MessageBase) msg;
         log.info(msgBase.getData());
         ChannelFuture cf = ctx.writeAndFlush(
-                MessageBase.newBuilder()
-                        .setClientId(msgBase.getClientId())
-                        .setCmd(CommandType.UPLOAD_DATA_BACK)
-                        .setData("这是业务层的逻辑")
-                        .build()
+                this.createMessageBase(msgBase.getClientId(),CommandType.UPLOAD_DATA_BACK, "这是业务层的逻辑" )
         );
-        /* 上一条消息发送成功后，立马推送一条消息 */
-        cf.addListener(new GenericFutureListener<Future<? super Void>>() {
-            @Override
-            public void operationComplete(Future<? super Void> future) throws Exception {
-                if (future.isSuccess()) {
-                    ctx.writeAndFlush(
-                            MessageBase.newBuilder()
-                                    .setClientId(msgBase.getClientId())
-                                    .setCmd(CommandType.PUSH_DATA)
-                                    .setData("开始发送业务数据了。。。")
-                                    .build()
-                    );
-                }
+        /* 给添加监听事件，当事件处理成功时；上一条消息发送成功后，立马推送一条消息 */
+        cf.addListener(future -> {
+            if (future.isSuccess()) {
+                ctx.writeAndFlush(
+                    this.createMessageBase(msgBase.getClientId(),CommandType.PUSH_DATA, "开始发送业务数据了。。。" )
+                );
             }
         });
         ReferenceCountUtil.release(msg);
@@ -66,7 +54,20 @@ public class OtherServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
+        log.info("[Channel Read Complete] read complete on time :{}", System.currentTimeMillis());
+    }
 
+    /**
+     * 创建消息基本信息；
+     * @param clientId
+     * @param commandType
+     * @param data
+     * @return
+     */
+    private MessageBase createMessageBase(String clientId, Command.CommandType commandType, String data){
+        MessageBase.Builder builder = MessageBase.newBuilder();
+        builder.setClientId(clientId).setCmd(commandType).setData(data);
+        return builder.build();
     }
 
 
