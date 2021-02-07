@@ -53,6 +53,7 @@ public class FileServerChannelInitialier extends ChannelInitializer<SocketChanne
         pipeline.addLast(new IdleStateServerHandler());
         // 添加自己的业务逻辑信息；
         pipeline.addLast(new FileServerHandler());
-
+        // 添加其它的业务处理逻辑;
+        pipeline.addLast(new OtherBusinessHandler());
     }
 }

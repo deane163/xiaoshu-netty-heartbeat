@@ -28,6 +28,8 @@ public class FileServerHandler extends SimpleChannelInboundHandler<MessageFile.M
         MessageFile.File fileObject = message.getMessageContent().getContent().unpack(MessageFile.File.class);
         MessageFileProtobufTest.readBin2Image(fileObject.getData().toByteArray(), "D:/temp/11zzz" + System.currentTimeMillis() + ".png");
 
+        // 传递给下一个Handler进行处理；
+        ctx.fireChannelRead(message);
         ReferenceCountUtil.release(message);
     }
 
