@@ -5,7 +5,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.timeout.IdleStateEvent;
 
 /**
- * 功能说明：
+ * 功能说明： 业务处理的Handler，主要负责业务处理实现；
  *
  * @ com.xiaoshu.heartbeat
  * <p>

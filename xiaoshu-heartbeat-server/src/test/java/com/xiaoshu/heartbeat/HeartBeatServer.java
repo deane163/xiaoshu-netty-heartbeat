@@ -8,7 +8,7 @@ import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 
 /**
- * 功能说明：
+ * 功能说明： 心跳机制实现；
  *
  * @ com.xiaoshu.heartbeat
  * <p>

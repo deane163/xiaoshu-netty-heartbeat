@@ -10,7 +10,7 @@ import io.netty.handler.timeout.IdleStateHandler;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 功能说明：
+ * 功能说明： 添加编解码器和心跳机制实现；（辅助功能的实现--编解码和心跳机制）
  *
  * @ com.xiaoshu.heartbeat
  * <p>
