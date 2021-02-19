@@ -9,8 +9,13 @@ import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.util.ReferenceCountUtil;
 
+import javax.jnlp.UnavailableServiceException;
+
 /**
- * 功能说明：
+ * 功能说明： 使用了模板方法（Netty中最常用的设计模式总结 ： 模板方法 && 职责链模式）
+ *
+ * SimpleChannelInboundHandler 使用了模板方法；
+ * ChannelPipeline 使用了职责链的方式；
  *
  * @ com.xiaoshu.file.server.handler
  * <p>
@@ -59,7 +64,7 @@ public class IdleStateServerHandler extends SimpleChannelInboundHandler<MessageF
     }
 
     @Override
-    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+    public void channelActive(ChannelHandlerContext ctx)  {
         System.out.println(ctx.channel().remoteAddress() + "连接成功");
     }
 
@@ -79,8 +84,15 @@ public class IdleStateServerHandler extends SimpleChannelInboundHandler<MessageF
         ReferenceCountUtil.release(message);
     }
 
+    /**
+     * 抛出异常信息到下一个 Handler进行处理；
+     * @param ctx
+     * @param cause
+     * @throws Exception
+     */
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         super.exceptionCaught(ctx, cause);
+        throw new UnavailableServiceException();
     }
 }
